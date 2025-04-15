@@ -7,7 +7,6 @@ dataset_id = "redsox_stg_dataset"
 bucket_name = "rs_bucket_challenge"
 folder = "staging_files"
 
-# ✅ Define schemas BEFORE the loop
 schema_game_post_wide = [
     bigquery.SchemaField("gameId", "STRING"),
     bigquery.SchemaField("seasonId", "STRING"),
@@ -63,17 +62,16 @@ schema_game_wide = schema_game_post_wide
     bigquery.SchemaField("ingestion_time", "TIMESTAMP"),
 ]
  """
-# ✅ Map staging files to table names
 staging_files = {
     "staging_files/staged_games_post_wide.csv": "stg_game_post_wide",
     "staging_files/staged_games_wide.csv": "stg_game_wide",
    ## "staging_files/staged_schedules.csv": "stg_schedules"
 }
 
-# ✅ Initialize BigQuery client
+#  Initialize BigQuery client
 client = bigquery.Client(project=project_id)
 
-# ✅ Initialize GCS client for file verification
+#  Initialize GCS client for file verification
 def check_gcs_file(bucket_name, file_path):
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
@@ -86,7 +84,6 @@ def check_gcs_file(bucket_name, file_path):
         return False
 
 
-# ✅ Loop through and load the files
 for file_path, table_name in staging_files.items():
 
     # Check if the file exists in GCS before loading
