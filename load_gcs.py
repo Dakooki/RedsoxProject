@@ -1,19 +1,16 @@
 from google.cloud import storage
 import os
 
-# 🔁 Adjust to your environment
 staging_dir = 'path/baseball_project/staging/'
 bucket_name = 'rs_bucket_challenge'  # ✅ Replace with your actual bucket name
 destination_folder = 'staging_files'  # Optional: GCS folder prefix
 
-# ✅ File names to upload
 files_to_upload = [
     'staged_games_wide.csv',
     'staged_games_post_wide.csv',
     'staged_schedules.csv'
 ]
 
-# ✅ Upload function
 def upload_files_to_gcs(local_dir, bucket_name, files, destination_prefix=''):
     client = storage.Client()
     bucket = client.bucket(bucket_name)
@@ -26,5 +23,4 @@ def upload_files_to_gcs(local_dir, bucket_name, files, destination_prefix=''):
         blob.upload_from_filename(local_path)
         print(f"✅ Uploaded {local_path} to gs://{bucket_name}/{blob_path}")
 
-# 🔼 Upload the files
 upload_files_to_gcs(staging_dir, bucket_name, files_to_upload, destination_folder)
